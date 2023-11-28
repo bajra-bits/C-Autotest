@@ -1,15 +1,9 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using ShoppingCart.PageObjects;
 using ShoppingCart.PageServices.core;
 using ShoppingCart.Utils;
-using System.Diagnostics.Metrics;
-using System.Linq.Expressions;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace ShoppingCart.PageServices
 {
@@ -41,8 +35,8 @@ namespace ShoppingCart.PageServices
             try
             {
                 WaitForElementIsVisible(By.XPath(cpo.registerTitleXPathSelector));
-                EnterText(By.CssSelector(cpo.usernameCssSelector), "supertest@getnada.com");
-                EnterText(By.CssSelector(cpo.emailCssSelector), "testagain123@getnada.com");
+                EnterText(By.CssSelector(cpo.usernameCssSelector), "rejan@getnada.com");
+                EnterText(By.CssSelector(cpo.emailCssSelector), "rejan@getnada.com");
 
                 // Click Signup button
                 ButtonClickTrigger(By.CssSelector(cpo.buttonCssSelector));
@@ -54,6 +48,7 @@ namespace ShoppingCart.PageServices
                     EnterRadioTitle(1);
                     EnterText(By.CssSelector(cpo.passwordCssSelector), "supertest");
 
+                    // SELECT OPTS
                     SelectOptionByVisibleText(By.CssSelector(cpo.days), "12");
                     SelectOptionByVisibleText(By.CssSelector(cpo.months), "May");
                     SelectOptionByVisibleText(By.CssSelector(cpo.years), "1998");
@@ -70,8 +65,11 @@ namespace ShoppingCart.PageServices
                     EnterText(By.CssSelector(cpo.zipCode), "supertest");
                     EnterText(By.CssSelector(cpo.mobileNumber), "supertest");
 
+
+                    //ScrollIntoView 0,500 horizontally 
+                    ScrollIntoView(0, 500);
                     ButtonClickTrigger(By.CssSelector(cpo.createAccountBtnCssLocator));
-                    //ButtonClickTrigger(By.CssSelector(cpo.continueBtnCssLocator));
+                    ButtonClickTrigger(By.CssSelector(cpo.continueBtnCssLocator));
 
                     return new LandingPage(siteDriver, wait, new LandingPageObject());
                 }
@@ -93,10 +91,7 @@ namespace ShoppingCart.PageServices
         }
 
 
-        private void ScrollToView(int x, int y)
-        {
-            jsExecutor.ExecuteScript(String.Format("window.scrollTo({0}, {1});", x, y));
-        }
+
 
 
         private Boolean CheckDuplicateEmailExists()
@@ -134,17 +129,10 @@ namespace ShoppingCart.PageServices
         private void ButtonClickTrigger(By locator)
         {
 
-            ScrollIntoViewAction(wait.Until(ExpectedConditions.ElementToBeClickable(locator))).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click();
         }
 
 
-        private IWebElement ScrollIntoViewAction(IWebElement element)
-        {
-            var actions = new Actions(siteDriver);
-            actions.MoveToElement(element);
-            actions.Perform();
-            return element;
-        }
 
 
 
