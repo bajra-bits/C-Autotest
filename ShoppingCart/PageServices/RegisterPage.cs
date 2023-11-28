@@ -1,12 +1,15 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using ShoppingCart.PageObjects;
 using ShoppingCart.PageServices.core;
 using ShoppingCart.Utils;
 using System.Diagnostics.Metrics;
+using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace ShoppingCart.PageServices
 {
@@ -33,41 +36,52 @@ namespace ShoppingCart.PageServices
             return this;
         }
 
-        public LandingPage Register()
+        public LandingPage? Register()
         {
-            WaitForElementIsVisible(By.XPath(cpo.registerTitleXPathSelector));
-            EnterText(By.CssSelector(cpo.usernameCssSelector), "supertest@getnada.com");
-            EnterText(By.CssSelector(cpo.emailCssSelector), "testagain123@getnada.com");
-
-            // Click Signup button
-            ButtonClickTrigger(By.CssSelector(cpo.buttonCssSelector));
-            var duplicateExists = CheckDuplicateEmailExists();
-
-            if (!duplicateExists)
+            try
             {
-                WaitForElementIsVisible(By.XPath(cpo.accountsTitleXPathSelector));
-                siteDriver.FindElements(By.CssSelector(cpo.radioCssSelector));
+                WaitForElementIsVisible(By.XPath(cpo.registerTitleXPathSelector));
+                EnterText(By.CssSelector(cpo.usernameCssSelector), "supertest@getnada.com");
+                EnterText(By.CssSelector(cpo.emailCssSelector), "testagain123@getnada.com");
+
+                // Click Signup button
+                ButtonClickTrigger(By.CssSelector(cpo.buttonCssSelector));
+                var duplicateExists = CheckDuplicateEmailExists();
+
+                if (!duplicateExists)
+                {
+                    WaitForElementIsVisible(By.XPath(cpo.accountsTitleXPathSelector));
+                    EnterRadioTitle(1);
+                    EnterText(By.CssSelector(cpo.passwordCssSelector), "supertest");
+
+                    SelectOptionByVisibleText(By.CssSelector(cpo.days), "12");
+                    SelectOptionByVisibleText(By.CssSelector(cpo.months), "May");
+                    SelectOptionByVisibleText(By.CssSelector(cpo.years), "1998");
+
+                    EnterText(By.CssSelector(cpo.firstName), "supertest");
+                    EnterText(By.CssSelector(cpo.lastName), "supertest");
+                    EnterText(By.CssSelector(cpo.company), "supertest");
+                    EnterText(By.CssSelector(cpo.address), "supertest");
+                    EnterText(By.CssSelector(cpo.address2), "supertest");
+                    SelectOptionByVisibleText(By.CssSelector(cpo.country), "India");
+
+                    EnterText(By.CssSelector(cpo.state), "supertest");
+                    EnterText(By.CssSelector(cpo.city), "supertest");
+                    EnterText(By.CssSelector(cpo.zipCode), "supertest");
+                    EnterText(By.CssSelector(cpo.mobileNumber), "supertest");
+
+                    ButtonClickTrigger(By.CssSelector(cpo.createAccountBtnCssLocator));
+                    //ButtonClickTrigger(By.CssSelector(cpo.continueBtnCssLocator));
+
+                    return new LandingPage(siteDriver, wait, new LandingPageObject());
+                }
             }
-
-            EnterRadioTitle(1);
-            SelectOptionByVisibleText(By.CssSelector(cpo.days), "12");
-            SelectOptionByVisibleText(By.CssSelector(cpo.months), "May");
-            SelectOptionByVisibleText(By.CssSelector(cpo.years), "1998");
-            EnterText(By.CssSelector(cpo.firstName), "supertest");
-            EnterText(By.CssSelector(cpo.lastName), "supertest");
-            EnterText(By.CssSelector(cpo.company), "supertest");
-            EnterText(By.CssSelector(cpo.address), "supertest");
-            EnterText(By.CssSelector(cpo.address2), "supertest");
-            SelectOptionByVisibleText(By.CssSelector(cpo.country), "India");
-            EnterText(By.CssSelector(cpo.state), "supertest");
-            EnterText(By.CssSelector(cpo.city), "supertest");
-            EnterText(By.CssSelector(cpo.zipCode), "supertest");
-            EnterText(By.CssSelector(cpo.mobileNumber), "supertest");
-
-            ButtonClickTrigger(By.CssSelector(cpo.createAccountBtnCssLocator)); 
-            ButtonClickTrigger(By.CssSelector(cpo.continueBtnCssLocator));
-
-            return new LandingPage(siteDriver, wait, new LandingPageObject()); 
+            catch (Exception ex)
+            {
+                // Handle the exception, log it, or take appropriate action
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            return null;
         }
 
 
@@ -78,7 +92,13 @@ namespace ShoppingCart.PageServices
             selectEl.SelectByText(visibleText);
         }
 
-       
+
+        private void ScrollToView(int x, int y)
+        {
+            jsExecutor.ExecuteScript(String.Format("window.scrollTo({0}, {1});", x, y));
+        }
+
+
         private Boolean CheckDuplicateEmailExists()
         {
             try
@@ -100,8 +120,7 @@ namespace ShoppingCart.PageServices
 
         private void EnterText(By locator, string value)
         {
-            siteDriver.FindElement(locator).SendKeys(value);
-
+            ScrollIntoViewAction(siteDriver.FindElement(locator)).SendKeys(value);
         }
 
         private void WaitForElementIsVisible(By locator)
@@ -114,18 +133,28 @@ namespace ShoppingCart.PageServices
 
         private void ButtonClickTrigger(By locator)
         {
-            wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click(); 
+
+            ScrollIntoViewAction(wait.Until(ExpectedConditions.ElementToBeClickable(locator))).Click();
         }
 
-       
+
+        private IWebElement ScrollIntoViewAction(IWebElement element)
+        {
+            var actions = new Actions(siteDriver);
+            actions.MoveToElement(element);
+            actions.Perform();
+            return element;
+        }
+
+
 
         private void EnterRadioTitle(int index)
         {
-            if(index > 2)
+            if (index > 2)
             {
                 throw new Exception(String.Format("Invalid index {0}", index));
-            } 
-            _ = (IList<WebElement>)siteDriver.FindElements(By.CssSelector(cpo.radioCssSelector))[index];
+            }
+            siteDriver.FindElements(By.CssSelector(cpo.radioCssSelector))[index].Click();
         }
 
     }

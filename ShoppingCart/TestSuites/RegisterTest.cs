@@ -35,7 +35,7 @@ namespace ShoppingCart.TestSuites
 
         [TearDown] public void TearDown()
         {
-            driver.Quit(); 
+            //driver.Quit(); 
         }
     }
 }

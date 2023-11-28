@@ -9,12 +9,14 @@ namespace ShoppingCart.PageServices.core
         public IWebDriver siteDriver;
         public IWait<IWebDriver> wait;
         public PageObject<T> pageObject;
+        public IJavaScriptExecutor jsExecutor;
 
         public NewPage(IWebDriver siteDriver, IWait<IWebDriver> wait, PageObject<T> pageObject)
         {
             this.siteDriver = siteDriver;
             this.wait = wait;
             this.pageObject = pageObject;
+            this.jsExecutor = (IJavaScriptExecutor)siteDriver;
         }
 
     }

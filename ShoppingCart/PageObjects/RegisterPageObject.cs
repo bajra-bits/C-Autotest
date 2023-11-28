@@ -7,13 +7,14 @@ namespace ShoppingCart.PageObjects
     {
         public string registerLinkText = "Signup / Login";
         public string logoCssSelector = "img[src*='logo.png']";
-        public string registerTitleXPathSelector = "//*[containstext, 'New User Signup']";
+        public string registerTitleXPathSelector = "//*[contains(text(), 'New User Signup')]";
         public string usernameCssSelector = "input[data-qa='signup-name']";
         public string emailCssSelector = "input[data-qa='signup-email']";
+        public string passwordCssSelector = "input[data-qa='password']";
         public string buttonCssSelector = "button[data-qa='signup-button']";
-        public string accountsTitleXPathSelector = "//h2[containstext, 'Enter Account Information']";
+        public string accountsTitleXPathSelector = "//*[contains(text(), 'Enter Account Information')]";
         public string radioCssSelector = "input[type='radio']";
-        public string emailExistsXPathSelector = "//p[text='Email Address already exist!']";
+        public string emailExistsXPathSelector = "//*[contains(text(), 'Email Address already exist!')]";
 
 
         public string radioMr = "div#uniform-id_gender1";
