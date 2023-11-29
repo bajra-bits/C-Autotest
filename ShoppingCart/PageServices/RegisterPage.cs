@@ -35,8 +35,8 @@ namespace ShoppingCart.PageServices
             try
             {
                 WaitForElementIsVisible(By.XPath(cpo.registerTitleXPathSelector));
-                EnterText(By.CssSelector(cpo.usernameCssSelector), "rejan@getnada.com");
-                EnterText(By.CssSelector(cpo.emailCssSelector), "rejan@getnada.com");
+                EnterText(By.CssSelector(cpo.usernameCssSelector), "supersonic@getnada.com");
+                EnterText(By.CssSelector(cpo.emailCssSelector), "supersonic1@getnada.com");
 
                 // Click Signup button
                 ButtonClickTrigger(By.CssSelector(cpo.buttonCssSelector));
@@ -100,7 +100,7 @@ namespace ShoppingCart.PageServices
             {
                 var emailExists = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(cpo.emailExistsXPathSelector)));
                 Assert.That(emailExists.Text, Is.EqualTo("Email Address already exist!"));
-                Console.WriteLine("******** DUPLICATE EMAIL EXISTS ************");
+                Console.WriteLine(String.Format("Error: {0}", emailExists.Text));
                 return true;
             }
             catch (NoSuchElementException ex)

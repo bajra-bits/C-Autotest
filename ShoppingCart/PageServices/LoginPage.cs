@@ -29,13 +29,13 @@ namespace ShoppingCart.PageServices
             return this;
         }
 
-        public LandingPage? Login()
+        public LandingPage? Login(string email, string password)
         {
             try
             {
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(cpo.loginLabelXPathSelector)));
-                EnterText(By.CssSelector(cpo.emailCssSelector), "supertest@getnada.com");
-                EnterText(By.CssSelector(cpo.passwordCssSelector), "supertest@getnada.com");
+                EnterText(By.CssSelector(cpo.emailCssSelector), email);
+                EnterText(By.CssSelector(cpo.passwordCssSelector), password);
                 LoginBtnClick();
                 var isLoginErr = CheckForLoginError();
                 if(!isLoginErr)
@@ -55,6 +55,7 @@ namespace ShoppingCart.PageServices
             try
             {
                 var errorText = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(cpo.errorXPathSelector))).Text;
+                Assert.That(errorText, Is.EqualTo("Your email or password is incorrect!"));
                 Console.WriteLine(String.Format("Error: {0}", errorText));
                 return true;
 

@@ -27,7 +27,9 @@ namespace ShoppingCart.TestSuites
             driver.Title.CheckPageTitle("Automation Exercise"); 
 
             var registerPage = new RegisterPage(driver, wait, new PageObjects.RegisterPageObject());
-            registerPage.NavigateToSignup().CheckPageTitle("Automation Exercise - Signup / Login").Register();
+            registerPage.NavigateToSignup()
+                .CheckPageTitle("Automation Exercise - Signup / Login")
+                .Register();
         }
 
         [TearDown] public void TearDown()

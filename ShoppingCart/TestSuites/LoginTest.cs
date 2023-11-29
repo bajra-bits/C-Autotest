@@ -5,37 +5,61 @@ using ShoppingCart.Utils;
 
 namespace ShoppingCart.TestSuites
 {
+    [TestFixture]
     public class LoginTest
     {
         IWebDriver driver;
         IWait<IWebDriver> wait;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             // Maximize the browser window
             driver = MyDriver.InitDriver();
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://automationexercise.com/");
-
+            wait = MyDriver.InitWait(driver);
         }
 
-        [Test]
+        [SetUp]
+        public void Init()
+        {
+            driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("https://automationexercise.com/");
+            driver.Title.CheckPageTitle("Automation Exercise"); 
+        }
+
+        [Test, Order(3)]
         public void LoginWithValidCreds()
         {
-            wait = MyDriver.InitWait(driver);
+            var loginPage = new LoginPage(driver, wait, new PageObjects.LoginPageObject());
+            loginPage.NavigateToLogin()
+                .CheckPageTitle("Automation Exercise - Signup / Login")
+                .Login("supersonic@getnada.com","supertest");
+        }
+
+        [Test, Order(2)]
+        public void LoginWithInvalidValidCreds()
+        {
             driver.Title.CheckPageTitle("Automation Exercise"); 
             var loginPage = new LoginPage(driver, wait, new PageObjects.LoginPageObject());
             loginPage.NavigateToLogin()
                 .CheckPageTitle("Automation Exercise - Signup / Login")
-                .Login();
+                .Login("supertest@getnada.com","supertest@getnada.com");
         }
 
+        [Test, Order(1)]
+        public void LoginWithInvalidValidUser()
+        {
+            driver.Title.CheckPageTitle("Automation Exercise"); 
+            var loginPage = new LoginPage(driver, wait, new PageObjects.LoginPageObject());
+            loginPage.NavigateToLogin()
+                .CheckPageTitle("Automation Exercise - Signup / Login")
+                .Login("invaliduser@getnada.com","supertest");
+        }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
-            //driver.Quit(); 
+            driver.Quit();
         }
     }
 }
