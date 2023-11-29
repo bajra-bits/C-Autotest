@@ -7,7 +7,7 @@ using ShoppingCart.Utils;
 
 namespace ShoppingCart.PageServices
 {
-    public class RegisterPage : NewPage<RegisterPageObject>
+    public class RegisterPage : NewPage<RegisterPage,RegisterPageObject>
     {
         public RegisterPageObject cpo;
 

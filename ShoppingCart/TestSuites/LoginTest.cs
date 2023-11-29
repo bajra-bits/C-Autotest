@@ -5,10 +5,10 @@ using ShoppingCart.Utils;
 
 namespace ShoppingCart.TestSuites
 {
-    public class RegisterTest
+    public class LoginTest
     {
         IWebDriver driver;
-        IWait<IWebDriver> wait; 
+        IWait<IWebDriver> wait;
 
         [SetUp]
         public void Setup()
@@ -21,18 +21,21 @@ namespace ShoppingCart.TestSuites
         }
 
         [Test]
-        public void Register()
+        public void LoginWithValidCreds()
         {
             wait = MyDriver.InitWait(driver);
             driver.Title.CheckPageTitle("Automation Exercise"); 
-
-            var registerPage = new RegisterPage(driver, wait, new PageObjects.RegisterPageObject());
-            registerPage.NavigateToSignup().CheckPageTitle("Automation Exercise - Signup / Login").Register();
+            var loginPage = new LoginPage(driver, wait, new PageObjects.LoginPageObject());
+            loginPage.NavigateToLogin()
+                .CheckPageTitle("Automation Exercise - Signup / Login")
+                .Login();
         }
 
-        [TearDown] public void TearDown()
+
+        [TearDown]
+        public void TearDown()
         {
-            driver.Quit();
+            //driver.Quit(); 
         }
     }
 }

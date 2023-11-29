@@ -2,23 +2,25 @@
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using ShoppingCart.PageObjects.core;
+using ShoppingCart.Utils;
 
 namespace ShoppingCart.PageServices.core
 {
-    public class NewPage<T>
+    public class NewPage<T,U>
     {
         public IWebDriver siteDriver;
         public IWait<IWebDriver> wait;
-        public PageObject<T> pageObject;
+        public PageObject<U> pageObject;
         public IJavaScriptExecutor jsExecutor;
 
-        public NewPage(IWebDriver siteDriver, IWait<IWebDriver> wait, PageObject<T> pageObject)
+        public NewPage(IWebDriver siteDriver, IWait<IWebDriver> wait, PageObject<U> pageObject)
         {
             this.siteDriver = siteDriver;
             this.wait = wait;
             this.pageObject = pageObject;
             this.jsExecutor = (IJavaScriptExecutor)siteDriver;
         }
+
 
 
         protected void ScrollIntoView(int x, int y)
@@ -34,7 +36,7 @@ namespace ShoppingCart.PageServices.core
         }
 
 
-        
+
         protected IWebElement ScrollIntoViewAction(IWebElement element)
         {
             var actions = new Actions(siteDriver);
@@ -42,6 +44,12 @@ namespace ShoppingCart.PageServices.core
             actions.Perform();
             return element;
         }
+
+      /*  public T? CheckPageTitle(string expected)
+        {
+            expected.CheckPageTitle(siteDriver.Title);
+            return default;
+        }*/
 
     }
 }

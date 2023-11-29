@@ -5,7 +5,7 @@ using ShoppingCart.PageServices.core;
 
 namespace ShoppingCart.PageServices
 {
-    public class LandingPage: NewPage<LandingPageObject>
+    public class LandingPage: NewPage<LandingPage,LandingPageObject>
     {
         LandingPageObject cpo; 
 
