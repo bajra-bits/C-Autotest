@@ -36,7 +36,7 @@ namespace ShoppingCart.PageServices
             {
                 WaitForElementIsVisible(By.XPath(cpo.registerTitleXPathSelector));
                 EnterText(By.CssSelector(cpo.usernameCssSelector), "supersonic@getnada.com");
-                EnterText(By.CssSelector(cpo.emailCssSelector), "supersonic1@getnada.com");
+                EnterText(By.CssSelector(cpo.emailCssSelector), "supersonic2@getnada.com");
 
                 // Click Signup button
                 ButtonClickTrigger(By.CssSelector(cpo.buttonCssSelector));

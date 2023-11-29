@@ -70,6 +70,9 @@ namespace ShoppingCart.PageServices
             }
         }
 
+
+       
+
         private void EnterText(By locator, string text)
         {
             ScrollIntoViewAction(siteDriver.FindElement(locator))

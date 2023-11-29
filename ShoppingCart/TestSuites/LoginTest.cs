@@ -33,7 +33,8 @@ namespace ShoppingCart.TestSuites
             var loginPage = new LoginPage(driver, wait, new PageObjects.LoginPageObject());
             loginPage.NavigateToLogin()
                 .CheckPageTitle("Automation Exercise - Signup / Login")
-                .Login("supersonic@getnada.com","supertest");
+                .Login("supersonic@getnada.com", "supertest")
+                ?.Logout();
         }
 
         [Test, Order(2)]
