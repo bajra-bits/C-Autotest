@@ -1,8 +1,10 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using ShoppingCart.PageObjects.core;
+using ShoppingCart.PageServices.cart;
 using ShoppingCart.Utils;
 
 namespace ShoppingCart.PageServices.core
@@ -56,9 +58,9 @@ namespace ShoppingCart.PageServices.core
         }
 
 
-        protected void ElementIsVisisble(By locator)
+        protected IWebElement ElementIsVisisble(By locator)
         {
-            wait.Until(ExpectedConditions.ElementIsVisible(locator)); 
+            return wait.Until(ExpectedConditions.ElementIsVisible(locator)); 
         } 
 
 
@@ -66,6 +68,10 @@ namespace ShoppingCart.PageServices.core
         {
 
             wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click();
+        }
+        protected void EnterText(By locator, string value)
+        {
+            ScrollIntoViewAction(siteDriver.FindElement(locator)).SendKeys(value);
         }
 
         public void Logout()
@@ -80,9 +86,10 @@ namespace ShoppingCart.PageServices.core
         }
 
 
-        public void GoToCart()
+        public CartPage GoToCart()
         {
             wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText(pageObject.cartLinkText))).Click();
+            return new CartPage(siteDriver, wait, new PageObjects.cart.CartPageObject()); 
         }
 
 

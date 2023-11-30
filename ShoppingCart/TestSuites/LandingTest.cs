@@ -37,7 +37,11 @@ namespace ShoppingCart.TestSuites
                 .AddProductToCart(1)
                 .AddProductToCart(2)
                 .AddProductToCart(3)
-                .GoToCart(); 
+                .GoToCart()
+                .Checkout()
+                .ConfirmOrder()
+                .MakePayment()
+                .Continue(); 
         }
 
 

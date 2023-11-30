@@ -4,6 +4,7 @@ namespace ShoppingCart.PageObjects.cart
 {
     public class OrderPageObject : PageObject<OrderPageObject>
     {
-        public string CheckoutLinkText = "Proceed To Checkout";
+        public string PlaceOrderLinkText = "Place Order";
+
     }
 }
