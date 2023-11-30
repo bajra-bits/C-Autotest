@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using ShoppingCart.PageObjects;
 using ShoppingCart.PageServices;
 using ShoppingCart.Utils;
 
@@ -31,9 +32,13 @@ namespace ShoppingCart.TestSuites
         [Test, Order(1)]
         public void AddProductToCart()
         {
-            var landingPage = new LandingPage(driver, wait, new PageObjects.LandingPageObject());
-            landingPage
-                .AddProductToCart(0)
+
+            var loginPage = new LoginPage(driver, wait, new LoginPageObject());
+
+            loginPage.NavigateToLogin()
+               .CheckPageTitle("Automation Exercise - Signup / Login")
+               .Login("supersonic@getnada.com", "supertest") 
+                ?.AddProductToCart(0)
                 .AddProductToCart(1)
                 .AddProductToCart(2)
                 .AddProductToCart(3)

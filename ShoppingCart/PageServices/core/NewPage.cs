@@ -64,11 +64,19 @@ namespace ShoppingCart.PageServices.core
         } 
 
 
+
         protected void BtnClick(By locator)
         {
 
             wait.Until(ExpectedConditions.ElementToBeClickable(locator)).Click();
         }
+
+        protected void BtnClick(IWebElement element)
+        {
+
+            wait.Until(ExpectedConditions.ElementToBeClickable(element)).Click();
+        }
+
         protected void EnterText(By locator, string value)
         {
             ScrollIntoViewAction(siteDriver.FindElement(locator)).SendKeys(value);

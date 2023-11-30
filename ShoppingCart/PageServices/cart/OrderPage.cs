@@ -22,7 +22,7 @@ namespace ShoppingCart.PageServices
         {
             var element = siteDriver.FindElement(By.LinkText(cpo.PlaceOrderLinkText));
             ScrollIntoViewAction(element);
-            wait.Until(ExpectedConditions.ElementToBeClickable(element)); 
+            BtnClick(element);
             return new CardDetails(siteDriver, wait, new CardDetailsPageObject());
         }
 
