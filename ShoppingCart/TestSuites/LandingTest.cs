@@ -32,7 +32,8 @@ namespace ShoppingCart.TestSuites
         public void AddProductToCart()
         {
             var landingPage = new LandingPage(driver, wait, new PageObjects.LandingPageObject());
-            landingPage.AddProductToCart(0)
+            landingPage
+                .AddProductToCart(0)
                 .AddProductToCart(1)
                 .AddProductToCart(2)
                 .AddProductToCart(3)

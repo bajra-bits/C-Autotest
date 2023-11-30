@@ -18,11 +18,17 @@ namespace ShoppingCart.PageServices
 
 
 
+        public LandingPage ScrollForProducts()
+        {
+            ScrollIntoView(0, 500);
+            return this; 
+        }
         public LandingPage AddProductToCart(int index)
         {
             var prodId = index + 1; 
-            ScrollIntoView(0, 500);
             var productEl = siteDriver.FindElements(By.CssSelector(cpo.productCssSelector))[index];
+
+            ScrollIntoViewAction(productEl); 
             HoverElement(productEl);
             BtnClick(By.CssSelector(String.Format(cpo.addToCartSelector, prodId)));
             ElementIsVisisble(By.CssSelector(cpo.addToCartModal)); 
